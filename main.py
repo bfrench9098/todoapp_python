@@ -5,42 +5,43 @@ prompt_ask = 'Enter or List todos? ([Ee]nter | [Ll]ist |  blank to exit:'
 todos = []
 
 exit = False
+actionValid = False
 
 while (exit == False):
-    response = input(prompt_ask)
+    response = input(prompt_ask).strip()
     action = response.lower()
 
     if len(action) == 0:
-        action = 'exit'
+        action = 'exitApp'
 
     match action:
         case 'enter':
-            exit = True
+            actionValid = True
         case 'list':
-            exit = True
-        case 'exit':
-            exit = True
-            action = ''
+            actionValid = True
+        case 'exitApp':
+            break
 
-if (action.startswith('e')):
-    response = input(prompt_enter)
+    if ((actionValid == True) and (exit == False)):
+        if (action == 'enter'):
+            response = input(prompt_enter).strip()
 
-    if len(response) > 0:
-        todos.append(response.capitalize())
+            if len(response) > 0:
+                todos.append(response.capitalize())
 
-    while len(response) > 0:
-        response = input(prompt_enter)
-        if len(response) > 0:
-            todos.append(response.capitalize())
+            while len(response) > 0:
+                response = input(prompt_enter).strip()
 
-    print('\nYour Todos:')
-    for item in todos:
-        print("\t", item)
+                if len(response) > 0:
+                    todos.append(response.capitalize())
 
-    # print("\nYour todos: ", todos)
-elif (action.startswith('l')):
-    print('\nYourTodos:')
-    for item in todos:
-        print("\t", item)
+        elif (action == 'list'):
+            print('\nYour Todos:')
 
-    # print ("\nYour todos: ", todos)
+            if (todos.__len__() > 0):
+                for item in todos:
+                    print("\t", item)
+
+                print("")
+            else:
+                print('\t', "You don't have any todos\n")
