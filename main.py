@@ -1,4 +1,16 @@
-#print("Enter a todo:")
+# Very simple command line based menu to enter strings
+
+# When prompted enter either "enter" or "list" or press enter to exit.
+#  If you are entering todos, you will be prompted to enter a string.
+#  (1) Strings are "stripped" of leading and trailing spaces.
+#  (2) Strings are "capitalized".
+
+# Strings go into a list but are currently not saved to a file
+
+# If you are listing, you will see the string you entered or you
+#   will see "You don't have any todos" if you did not enter any
+#   strings.
+
 prompt_enter = 'Enter a todo (blank to exit):'
 prompt_ask = 'Enter or List todos? ([Ee]nter | [Ll]ist |  blank to exit:'
 
