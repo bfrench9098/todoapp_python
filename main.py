@@ -12,6 +12,9 @@
 #   strings.
 
 ### START OF FUNCTIONS
+#--------------------------------------------------
+#listTodos - List all todos entered by the user
+#--------------------------------------------------
 def listTodos():
     print('\nYour Todos:')
 
@@ -26,6 +29,9 @@ def listTodos():
     else:
         print('\t', "You don't have any todos\n")
 
+#--------------------------------------------------
+#enterTodos - Allow the user to enter todos
+#--------------------------------------------------
 def enterTodos():
     response = input(prompt_enter).strip()
 
