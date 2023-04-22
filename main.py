@@ -11,8 +11,37 @@
 #   will see "You don't have any todos" if you did not enter any
 #   strings.
 
+### START OF FUNCTIONS
+def listTodos():
+    print('\nYour Todos:')
+
+    if (todos.__len__() > 0):
+        itemNo = 0
+
+        for item in todos:
+            itemNo = itemNo + 1
+            print("\t", "(", itemNo, ")", item)
+
+        print("")
+    else:
+        print('\t', "You don't have any todos\n")
+
+def enterTodos():
+    response = input(prompt_enter).strip()
+
+    if len(response) > 0:
+        todos.append(response.capitalize())
+
+    while len(response) > 0:
+        response = input(prompt_enter).strip()
+
+        if len(response) > 0:
+            todos.append(response.capitalize())
+### END OF FUNCTIONS
+
 prompt_enter = 'Enter a todo (blank to exit):'
-prompt_ask = 'Enter or List todos? ([Ee]nter | [Ll]ist |  blank to exit:'
+prompt_edit = 'Enter the number of the todo to edit (blank to exit):'
+prompt_ask = 'Enter, Edit or List todos? (blank to exit):'
 
 todos = []
 
@@ -29,6 +58,8 @@ while (exit == False):
     match action:
         case 'enter':
             actionValid = True
+        case 'edit':
+            actionValid = True
         case 'list':
             actionValid = True
         case 'exitApp':
@@ -36,24 +67,9 @@ while (exit == False):
 
     if ((actionValid == True) and (exit == False)):
         if (action == 'enter'):
-            response = input(prompt_enter).strip()
-
-            if len(response) > 0:
-                todos.append(response.capitalize())
-
-            while len(response) > 0:
-                response = input(prompt_enter).strip()
-
-                if len(response) > 0:
-                    todos.append(response.capitalize())
-
+            enterTodos()
         elif (action == 'list'):
-            print('\nYour Todos:')
-
-            if (todos.__len__() > 0):
-                for item in todos:
-                    print("\t", item)
-
-                print("")
-            else:
-                print('\t', "You don't have any todos\n")
+            listTodos()
+        elif (action == 'edit'):
+            listTodos()
+            response= input(prompt_edit).strip()
