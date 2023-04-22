@@ -47,6 +47,7 @@ def enterTodos():
 
 prompt_enter = 'Enter a todo (blank to exit):'
 prompt_edit = 'Enter the number of the todo to edit (blank to exit):'
+prompt_replace = 'Enter the replacement todo (blank to exit):'
 prompt_ask = 'Enter, Edit or List todos? (blank to exit):'
 
 todos = []
@@ -79,3 +80,20 @@ while (exit == False):
         elif (action == 'edit'):
             listTodos()
             response= input(prompt_edit).strip()
+
+            if len(response) > 0:
+                if response.isnumeric():
+                    itemNo = int(response)
+                    if itemNo > todos.__len__() or itemNo == 0:
+                        print('ERROR! - Item number ', itemNo, ' is not in the list')
+                    else:
+                        itemNo = itemNo - 1
+
+                        strResponse = input(prompt_replace).strip()
+                        if len(strResponse) > 0:
+                            todos[itemNo] = strResponse.capitalize()
+                            print('Your todos have been updated')
+                            listTodos()
+                else:
+                    print('ERROR! - ',response,' is not valid. Enter an item number from the list')
+
