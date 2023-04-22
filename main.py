@@ -43,6 +43,29 @@ def enterTodos():
 
         if len(response) > 0:
             todos.append(response.capitalize())
+
+#--------------------------------------------------
+#editTodos - Allow the user to edit their todos
+#--------------------------------------------------
+def editTodos():
+    listTodos()
+    response = input(prompt_edit).strip()
+
+    if len(response) > 0:
+        if response.isnumeric():
+            itemNo = int(response)
+            if itemNo > todos.__len__() or itemNo == 0:
+                print('ERROR! - Item number ', itemNo, ' is not in the list')
+            else:
+                itemNo = itemNo - 1
+
+                strResponse = input(prompt_replace).strip()
+                if len(strResponse) > 0:
+                    todos[itemNo] = strResponse.capitalize()
+                    print('Your todos have been updated')
+                    listTodos()
+        else:
+            print('ERROR! - ', response, ' is not valid. Enter an item number from the list')
 ### END OF FUNCTIONS
 
 prompt_enter = 'Enter a todo (blank to exit):'
@@ -78,22 +101,5 @@ while (exit == False):
         elif (action == 'list'):
             listTodos()
         elif (action == 'edit'):
-            listTodos()
-            response= input(prompt_edit).strip()
-
-            if len(response) > 0:
-                if response.isnumeric():
-                    itemNo = int(response)
-                    if itemNo > todos.__len__() or itemNo == 0:
-                        print('ERROR! - Item number ', itemNo, ' is not in the list')
-                    else:
-                        itemNo = itemNo - 1
-
-                        strResponse = input(prompt_replace).strip()
-                        if len(strResponse) > 0:
-                            todos[itemNo] = strResponse.capitalize()
-                            print('Your todos have been updated')
-                            listTodos()
-                else:
-                    print('ERROR! - ',response,' is not valid. Enter an item number from the list')
+            editTodos()
 
