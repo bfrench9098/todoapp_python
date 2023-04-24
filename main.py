@@ -94,6 +94,8 @@ while (exit == False):
             actionValid = True
         case 'exitApp':
             break
+        case other:
+            print('ERROR! That is not a valid option.')
 
     if ((actionValid == True) and (exit == False)):
         if (action == 'enter'):
