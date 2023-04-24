@@ -54,7 +54,7 @@ def editTodos():
     if len(response) > 0:
         if response.isnumeric():
             itemNo = int(response)
-            if itemNo > todos.__len__() or itemNo == 0:
+            if itemNo > len(todos) or itemNo == 0:
                 print('ERROR! - Item number ', itemNo, ' is not in the list')
             else:
                 itemNo = itemNo - 1
@@ -77,7 +77,7 @@ def completeTodos():
     if len(response) > 0:
         if response.isnumeric():
             itemNo = int(response)
-            if itemNo > todos.__len__() or itemNo == 0:
+            if itemNo > len(todos) or itemNo == 0:
                 print('ERROR! - Item number ', itemNo, ' is not in the list')
             else:
                 itemNo = itemNo - 1
