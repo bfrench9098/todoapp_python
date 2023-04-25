@@ -120,13 +120,22 @@ def writeToFile(f, todos):
     myFile = 'todos.txt'
 
     ### if found then truncate file and write any data in todos[]
-    if os.path.exists(myFile):
+    if f == None:
+        try:
+            f = open(myFile, 'w')
+        except:
+            print('ERROR! Error opening ', myFile, 'for write')
+            sys.exit(1)
+    else:
         f.seek(0)
         f.truncate()
 
-    for todo in todos:
-        todo = todo + '\n'
-        f.write(todo)
+    if len(todos) > 0:
+        for todo in todos:
+            todo = todo + '\n'
+            f.write(todo)
+
+        f.close()
 ### END OF FUNCTIONS
 
 prompt_enter = 'Enter a todo (blank to exit):'
@@ -164,7 +173,7 @@ while (exit == False):
             try:
                 writeToFile(f, todos)
             except:
-                print('ERROR! Error writing to todos file')
+                print('ERROR! Error writing to or closing todos file')
                 sys.exit(1)
 
             print('\nPROGRAM END: todos written to file', len(todos), '\n')
