@@ -135,7 +135,7 @@ def writeToFile(f, todos):
             todo = todo + '\n'
             f.write(todo)
 
-        f.close()
+    f.close()
 ### END OF FUNCTIONS
 
 prompt_enter = 'Enter a todo (blank to exit):'
