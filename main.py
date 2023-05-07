@@ -93,49 +93,49 @@ def completeTodos():
 #--------------------------------------------------
 #loadFromFile - Load todos from text file
 #--------------------------------------------------
-def loadFromFile(todos):
+def loadFromFile():
     ### first see if the file exists - using default name "todos.txt"
     myFile = 'todos.txt'
-    f = None
+    #f = None
+
+    todos = []
 
     if os.path.exists(myFile):
         ### if found then load todos[] from file
         try:
-            f = open(myFile, "r+")
+            with open(myFile, 'r') as file:
+                myTodos = file.readlines()
         except:
             print("ERROR! Could not open ", myFile)
             sys.exit(1)
 
-        for line in f:
-            line = line.strip('\n')
-            todos.append(line)
+        ### need to strip off the trailing new line so list will display correctly
+        for item in myTodos:
+            todo = item.strip('\n')
+            todos.append(todo)
 
-    return f
+    return todos
 
 #--------------------------------------------------
 #writeToFile - Write todos to a file
 #--------------------------------------------------
-def writeToFile(f, todos):
-    ### first see if the file exists - using default name "todos.txt"
+def writeToFile(todos):
     myFile = 'todos.txt'
 
-    ### if found then truncate file and write any data in todos[]
-    if f == None:
+    myTodos = []
+
+    ### need to add trailing new lines so the data will write correctly - as single lines
+    for item in todos:
+        myItem = item + '\n'
+        myTodos.append(myItem)
+
+    if len(myTodos) >  0:
         try:
-            f = open(myFile, 'w')
+            with open(myFile, 'w') as file:
+                file.writelines(myTodos)
         except:
             print('ERROR! Error opening ', myFile, 'for write')
             sys.exit(1)
-    else:
-        f.seek(0)
-        f.truncate()
-
-    if len(todos) > 0:
-        for todo in todos:
-            todo = todo + '\n'
-            f.write(todo)
-
-    f.close()
 ### END OF FUNCTIONS
 
 prompt_enter = 'Enter a todo (blank to exit):'
@@ -144,9 +144,7 @@ prompt_complete = 'Enter the number of the todo to mark completed (blank to exit
 prompt_replace = 'Enter the replacement todo (blank to exit):'
 prompt_ask = 'Enter, Edit, Complete or List todos? (blank to exit):'
 
-todos = []
-
-f = loadFromFile(todos)
+todos = loadFromFile()
 
 print('PROGRAM START: todos loaded from file', len(todos), '\n')
 
@@ -171,7 +169,7 @@ while (exit == False):
             actionValid = True
         case 'exitApp':
             try:
-                writeToFile(f, todos)
+                writeToFile(todos)
             except:
                 print('ERROR! Error writing to or closing todos file')
                 sys.exit(1)
