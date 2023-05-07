@@ -110,9 +110,7 @@ def loadFromFile():
             sys.exit(1)
 
         ### need to strip off the trailing new line so list will display correctly
-        for item in myTodos:
-            todo = item.strip('\n')
-            todos.append(todo)
+        todos = [item.strip('\n') for item in myTodos ]
 
     return todos
 
@@ -122,12 +120,7 @@ def loadFromFile():
 def writeToFile(todos):
     myFile = 'todos.txt'
 
-    myTodos = []
-
-    ### need to add trailing new lines so the data will write correctly - as single lines
-    for item in todos:
-        myItem = item + '\n'
-        myTodos.append(myItem)
+    myTodos = [item + '\n' for item in todos]
 
     if len(myTodos) >  0:
         try:
