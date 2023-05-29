@@ -8,12 +8,13 @@ import sys
 #  (1) Strings are "stripped" of leading and trailing spaces.
 #  (2) Strings are "capitalized".
 
-# Strings go into a list but are currently not saved to a file
-
 # If you are listing, you will see the string you entered or you
 #   will see "You don't have any todos" if you did not enter any
 #   strings.
 
+# Strings are saved in a flat file in the local directory.
+#   File read and write is only done once.
+#
 ### START OF FUNCTIONS
 #--------------------------------------------------
 #listTodos - List all todos entered by the user
