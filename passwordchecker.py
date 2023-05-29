@@ -2,19 +2,16 @@
 import re
 
 # BEGIN FUNCTIONS
-def checkForStrongPassword(password):
-    ### Requirements for a "strong" password
-    minPWDLenStrong = 8
-    minUpperCaseLettersStrong = 1
-    minNumericCharsStrong = 2
-    minSpecialCharsStrong = 1
+def checkPassword(password, requirements):
+    result = False
 
-    strong = False
-    count = 0
+    checks = {}
 
     # check password length
-    if len(password) >= minPWDLenStrong:
-        count = count + 1;
+    if len(password) >= requirements["minPWDLen"]:
+        checks["length"] = True;
+    else:
+        checks["length"] = False;
 
     # check number of upper case characters
     upCaseCharCount = 0
@@ -23,8 +20,10 @@ def checkForStrongPassword(password):
         if (re.match('[A-Z]', character)):
             upCaseCharCount = upCaseCharCount + 1;
 
-    if upCaseCharCount >= minUpperCaseLettersStrong:
-        count = count + 1;
+    if upCaseCharCount >= requirements["minUpperCaseLetters"]:
+        checks["minUpper"] = True;
+    else:
+        checks["minUpper"] = False;
 
     # check number of numeric characters
     numCharCount = 0
@@ -33,72 +32,80 @@ def checkForStrongPassword(password):
         if character.isnumeric():
             numCharCount = numCharCount + 1;
 
-    if numCharCount >= minNumericCharsStrong:
-        count = count + 1;
+    if numCharCount >= requirements["minNumericChars"]:
+        checks["minNumeric"] = True;
+    else:
+        checks["minNumeric"] = False;
 
     # check number of special characters
     specCharCount = 0
 
     for character in password:
-        if (re.match('[|^&+\-%*/=!>\.]', character)):
+        if re.match('[|^&+\-%*/=!>\.]', character):
            specCharCount = specCharCount + 1;
 
-    if specCharCount >= minSpecialCharsStrong:
-        count = count + 1;
+    if specCharCount >= requirements["minSpecialChars"]:
+        checks["minSpecial"] = True;
+    else:
+        checks["minSpecial"] = False;
 
-    if count == 4:
-        strong = True;
+    print(f"Criteria: {requirements}")
+    print(f"Check   : {checks}")
 
-    return strong
+    # make sure all checks are "True". If so, then set strong to True
+    if all(checks.values()):
+        result = True;
 
-def checkForWeakPassword(password):
-    ### Requirements for a "weak" password
-    minPWDLenWeak = 6
-    minUpperCaseLettersWeak = 1
-    minNumericCharsWeak = 1
-    minSpecialCharsWeak = 0
+    return result
 
-    weak = False;
-    count = 0
-
-    # check password length
-    if len(password) >= minPWDLenWeak:
-        count = count + 1;
-
-    # check number of upper case characters
-    upCaseCharCount = 0
-
-    for character in password:
-        if (re.match('[A-Z]', character)):
-            upCaseCharCount = upCaseCharCount + 1;
-
-    if upCaseCharCount >= minUpperCaseLettersWeak:
-        count = count + 1;
-
-    # check number of numeric characters
-    numCharCount = 0
-
-    for character in password:
-        if character.isnumeric():
-            numCharCount = numCharCount + 1;
-
-    if numCharCount >= minNumericCharsWeak:
-        count = count + 1;
-
-    # check number of special characters
-    specCharCount = 0
-
-    for character in password:
-        if (re.match('[|^&+\-%*/=!>\.]', character)):
-           specCharCount = specCharCount + 1;
-
-    if specCharCount >= minSpecialCharsWeak:
-        count = count + 1;
-
-    if count == 4:
-        weak = True;
-
-    return weak
+# def checkForWeakPassword(password):
+#     # Requirements for a "weak" password
+#     minPWDLenWeak = 6
+#     minUpperCaseLettersWeak = 1
+#     minNumericCharsWeak = 1
+#     minSpecialCharsWeak = 0
+#
+#     weak = False;
+#     count = 0
+#
+#     # check password length
+#     if len(password) >= minPWDLenWeak:
+#         count = count + 1;
+#
+#     # check number of upper case characters
+#     upCaseCharCount = 0
+#
+#     for character in password:
+#         if re.match('[A-Z]', character):
+#             upCaseCharCount = upCaseCharCount + 1;
+#
+#     if upCaseCharCount >= minUpperCaseLettersWeak:
+#         count = count + 1;
+#
+#     # check number of numeric characters
+#     numCharCount = 0
+#
+#     for character in password:
+#         if character.isnumeric():
+#             numCharCount = numCharCount + 1;
+#
+#     if numCharCount >= minNumericCharsWeak:
+#         count = count + 1;
+#
+#     # check number of special characters
+#     specCharCount = 0
+#
+#     for character in password:
+#         if (re.match('[|^&+\-%*/=!>\.]', character)):
+#            specCharCount = specCharCount + 1;
+#
+#     if specCharCount >= minSpecialCharsWeak:
+#         count = count + 1;
+#
+#     if count == 4:
+#         weak = True;
+#
+#     return weak
 ### END FUNCTIONS
 
 ### request password
@@ -107,13 +114,32 @@ myPWD = input('enter a password: ').strip()
 while len(myPWD) == 0:
     myPWD = input('enter a password: ').strip();
 
-strongPWD = checkForStrongPassword(myPWD)
-weakPWD = checkForWeakPassword(myPWD)
+requirements = {}
+
+# Requirements for a "strong" password
+requirements["minPWDLen"] = 8
+requirements["minUpperCaseLetters"] = 1
+requirements["minNumericChars"] = 2
+requirements["minSpecialChars"] = 1
+
+print("Chack for strong password")
+strongPWD = checkPassword(myPWD, requirements)
 
 if strongPWD:
-    print('Strong Password');
-elif weakPWD:
-    print('Weak Password');
+    print('\nStrong Password');
 else:
-    print('Unacceptable Password');
+    requirements.clear()
 
+    # Requirements for a "weak" password
+    requirements["minPWDLen"] = 6
+    requirements["minUpperCaseLetters"] = 1
+    requirements["minNumericChars"] = 1
+    requirements["minSpecialChars"] = 0
+
+    print("\nCheck for weak password")
+    weakPWD = checkPassword(myPWD, requirements)
+
+    if weakPWD:
+        print('\nWeak Password');
+    else:
+        print('\nUnacceptable Password');
